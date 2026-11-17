@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#07111f">
+<meta name="description" content="Your personal Digital World companion.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>DIGIVICE // Digital World</title>
+<style>
+:root{--bg:#07111f;--panel:#101f32;--panel2:#172b43;--cyan:#48e4ff;--blue:#438bff;--pink:#d879ff;--text:#e9f6ff;--muted:#91a9bd;--good:#67e6a4;--warn:#ffcb70}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(ellipse at top,#17395a 0,#07111f 48%,#030811 100%);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+.app{max-width:540px;margin:auto;min-height:100vh;padding:14px 14px 90px}
+header{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 14px}
+.logo{font-weight:900;letter-spacing:2px;color:var(--cyan);font-size:18px;text-shadow:0 0 16px #48e4ff55}
+.pill{border:1px solid #48e4ff55;color:var(--cyan);border-radius:20px;padding:5px 10px;font-size:11px;letter-spacing:1px}
+.panel{background:linear-gradient(145deg,#142840ee,#0b1728ee);border:1px solid #4adcf533;border-radius:18px;padding:15px;margin:10px 0;box-shadow:0 12px 30px #0004}
+.hero{display:grid;grid-template-columns:1fr 125px;gap:10px;align-items:center;min-height:165px}
+h1{font-size:24px;line-height:1.1;margin:6px 0}.muted{color:var(--muted)}.small{font-size:12px}.eyebrow{color:var(--cyan);font-size:10px;letter-spacing:2px;font-weight:800}
+.monster{height:130px;display:grid;place-items:center;position:relative}
+.orb{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,#8df4ff,#3184c9 42%,#152d64 72%);box-shadow:0 0 35px #48e4ff66,inset -10px -12px 25px #091a45}
+.orb span{font-size:55px;filter:drop-shadow(0 5px 5px #001)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.stat{background:#071522;border-radius:12px;padding:9px}.stat b{display:block;font-size:17px}.stat span{font-size:10px;color:var(--muted);letter-spacing:1px}
+.bar{height:7px;background:#07111c;border-radius:9px;overflow:hidden;margin-top:6px}.fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:9px}
+.tabs{position:fixed;bottom:0;left:0;right:0;background:#07111ff2;border-top:1px solid #48e4ff33;display:flex;justify-content:center;z-index:5;backdrop-filter:blur(12px)}
+.tabs button{flex:1;max-width:135px;background:none;border:0;color:var(--muted);padding:12px 4px 17px;font-size:11px}
+.tabs button.active{color:var(--cyan)}.tabs button span{display:block;font-size:20px;margin-bottom:3px}
+button,.action{cursor:pointer}button.primary,.action{border:1px solid #48e4ff77;background:linear-gradient(120deg,#12628a,#243e91);color:white;border-radius:12px;padding:11px 13px;font-weight:750}
+button.secondary{border:1px solid #ffffff22;background:#ffffff0a;color:var(--text);border-radius:12px;padding:10px 12px}
+button:disabled{opacity:.4}.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}
+h2{font-size:16px;margin:3px 0 10px}.section{display:none}.section.active{display:block}
+input,textarea,select{width:100%;border:1px solid #48e4ff44;background:#061321;color:var(--text);border-radius:12px;padding:12px;font:inherit}
+textarea{resize:vertical;min-height:64px}
+.chatlog{height:260px;overflow:auto;display:flex;flex-direction:column;gap:9px;padding:5px 0}
+.msg{max-width:88%;padding:10px 12px;border-radius:14px;background:#172e47;line-height:1.4}.msg.me{align-self:flex-end;background:#174d70}.msg.partner{align-self:flex-start}.msg .who{font-size:10px;color:var(--cyan);font-weight:800;letter-spacing:1px;margin-bottom:4px}
+.event{border-left:3px solid var(--cyan);padding:8px 10px;background:#081827;border-radius:0 10px 10px 0;margin:8px 0;font-size:13px}
+.choice{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.choice button{flex:1;min-width:100px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.hidden{display:none!important}
+footer{text-align:center;color:#607b92;font-size:10px;margin:20px 0}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="logo">◈ DIGIVICE</div><div class="pill" id="connection">DIGITAL LINK: LOCAL</div></header>
+<section class="section active" id="home">
+<div class="panel hero">
+ <div><div class="eyebrow">PARTNER LINK ESTABLISHED</div><h1 id="partnerName">Your partner awaits.</h1><div class="muted small" id="partnerLine">Choose your first partner to begin.</div><div style="margin-top:13px"><button class="primary" id="startBtn">INITIALIZE DEVICE</button></div></div>
+ <div class="monster"><div class="orb"><span id="partnerEmoji">❔</span></div></div>
+</div>
+<div class="panel">
+ <div class="row"><h2>Partner status</h2><span class="pill" id="stage">UNLINKED</span></div>
+ <div class="stats">
+  <div class="stat"><b id="bond">—</b><span>BOND</span></div><div class="stat"><b id="energy">—</b><span>ENERGY</span></div><div class="stat"><b id="level">—</b><span>LEVEL</span></div>
+ </div>
+ <div class="small muted" style="margin-top:12px">Bond</div><div class="bar"><div class="fill" id="bondBar" style="width:0%"></div></div>
+ <div class="small muted" style="margin-top:10px">Evolution data</div><div class="bar"><div class="fill" id="evoBar" style="width:0%;background:linear-gradient(90deg,#9b63ff,#ff79ce)"></div></div>
+</div>
+<div class="panel"><h2>Digital World activity</h2><div id="activity" class="muted small">No activity recorded. Your adventure begins when you initialize your Digivice.</div></div>
+</section>
+<section class="section" id="partner">
+<div class="panel"><div class="eyebrow">PARTNER PROFILE</div><h2 id="profileName">No partner linked</h2><p class="muted small" id="profileDesc">Initialize your Digivice to meet your partner.</p><div class="stats"><div class="stat"><b id="mood">—</b><span>MOOD</span></div><div class="stat"><b id="trust">—</b><span>TRUST</span></div><div class="stat"><b id="species">—</b><span>SPECIES</span></div></div></div>
+<div class="panel"><h2>Care and training</h2><div class="grid2"><button class="secondary" onclick="care('talk')">💬 Talk</button><button class="secondary" onclick="care('train')">⚡ Train</button><button class="secondary" onclick="care('rest')">🌙 Rest</button><button class="secondary" onclick="care('encourage')">💙 Encourage</button></div></div>
+<div class="panel"><h2>Evolution data</h2><p class="muted small">Your partner's growth is shaped by training, bond, and choices. Evolution is a prototype feature; reaching the threshold unlocks a recorded evolution event.</p><button class="primary" onclick="evolveCheck()">CHECK EVOLUTION</button><div id="evoMessage" class="small muted" style="margin-top:10px"></div></div>
+</section>
+<section class="section" id="chat">
+<div class="panel"><div class="eyebrow">PRIVATE PARTNER CHANNEL</div><h2 id="chatTitle">Partner communication</h2><div class="chatlog" id="chatlog"><div class="muted small">Initialize your Digivice to open the partner channel.</div></div><div class="row"><input id="chatInput" placeholder="Talk to your partner..." maxlength="300"><button class="primary" id="sendBtn" style="flex:0 0 auto">SEND</button></div><p class="muted small">This starter version uses an on-device scripted personality. No conversation is sent to a server.</p></div>
+</section>
+<section class="section" id="world">
+<div class="panel"><div class="eyebrow">WORLD SCANNER</div><h2 id="regionName">Unknown sector</h2><p class="muted small">Scan the surroundings to discover encounters, fragments, and places in this small generated world prototype.</p><button class="primary" onclick="explore()">⌖ EXPLORE AREA</button><div id="worldEvent" class="event">The scanner is idle.</div></div>
+<div class="panel"><h2>Field log</h2><div id="fieldLog" class="muted small">No discoveries yet.</div></div>
+<div class="panel"><h2>Battle simulator</h2><p class="muted small">A lightweight turn-based test battle. Your partner fights using its own battle profile.</p><button class="secondary" onclick="battle()">⚔ START ENCOUNTER</button><div id="battleLog" class="small muted" style="margin-top:10px"></div></div>
+</section>
+<section class="section" id="settings">
+<div class="panel"><div class="eyebrow">DEVICE CONFIGURATION</div><h2>Digivice settings</h2><label class="small muted">Your name</label><input id="ownerName" placeholder="Tamer name" maxlength="30"><div style="height:10px"></div><label class="small muted">Partner name (optional)</label><input id="nickname" placeholder="Keep generated name" maxlength="30"><div style="height:12px"></div><button class="primary" onclick="saveSettings()">SAVE SETTINGS</button></div>
+<div class="panel"><h2>Data management</h2><button class="secondary" onclick="exportSave()">EXPORT SAVE DATA</button> <button class="secondary" onclick="resetGame()">RESET DEVICE</button><p class="muted small">Your save is stored in this browser on this phone. Export a backup before clearing browser data or switching devices.</p></div>
+<div class="panel"><h2>About this build</h2><p class="muted small">DIGIVICE prototype 0.1. A mobile-first progressive web app. It is not an official Digimon product and uses original placeholder descriptions and emoji artwork.</p></div>
+</section>
+</div>
+<nav class="tabs">
+<button class="active" data-tab="home"><span>⌂</span>HOME</button><button data-tab="partner"><span>◉</span>PARTNER</button><button data-tab="chat"><span>▤</span>CHAT</button><button data-tab="world"><span>◇</span>WORLD</button><button data-tab="settings"><span>⚙</span>DEVICE</button>
+</nav>
+<script src="app.js"></script>
+</body></html>
